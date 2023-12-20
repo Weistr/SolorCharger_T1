@@ -69,7 +69,15 @@ Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c \
-Core/Src/system_stm32f3xx.c  
+Core/Src/system_stm32f3xx.c  \
+UserApp/filter.c \
+UserApp/user_main.c \
+Bsp/bsp_adc.c \
+Bsp/bsp_delay.c \
+Bsp/bsp_spi.c \
+Bsp/bsp_tim.c \
+Bsp/GUI12864.c \
+Bsp/ssd1306.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -131,7 +139,9 @@ C_INCLUDES =  \
 -IDrivers/STM32F3xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F3xx/Include \
 -IDrivers/CMSIS/Include \
--IMiddlewares/ST/ARM/DSP/Inc
+-IMiddlewares/ST/ARM/DSP/Inc \
+-IUserApp/Inc \
+-IBsp/Inc
 
 
 # compile gcc flags

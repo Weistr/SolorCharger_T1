@@ -5,13 +5,20 @@ extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim7;
 extern HRTIM_HandleTypeDef hhrtim1;
 /* END-------------------------------------------------------------------------*/
+/* define ------------------------------------------------------------*/
 #define timdutyMax 13000
 #define timdutyMin 2000
 #define timdutyTotal 15360
-
-
-/* Private variables ---------------------------------------------------------*/
 /* END-------------------------------------------------------------------------*/
+/* variables ---------------------------------------------------------*/
+
+/* END-------------------------------------------------------------------------*/
+
+
+
+
+
+
 void setHrtimDutyNum(uint16_t dutyn)
 {
 	if(dutyn > timdutyMax)dutyn = timdutyMax;//max 80%

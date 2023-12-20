@@ -3,6 +3,7 @@
         "string.h": "c",
         "bsp_delay.h": "c",
         "remote_data.h": "c",
-        "bsp_adc.h": "c"
+        "bsp_adc.h": "c",
+        "filter.h": "c"
     }
 }

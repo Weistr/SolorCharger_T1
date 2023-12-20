@@ -20,7 +20,7 @@ void delay_init(void)
 
 void delay_us(uint16_t nus)
 {
-	/*
+	
     uint32_t ticks = 0;
     uint32_t told = 0;
     uint32_t tnow = 0;
@@ -48,22 +48,8 @@ void delay_us(uint16_t nus)
                 break;
             }
         }
-    }*/
-			do
-	{
-		__nop();
-		__nop();		
-		__nop();
-		__nop();
-		__nop();
-		__nop();		
-		__nop();
-		__nop();
-		__nop();
-		__nop();		
-		__nop();
-		__nop();		
-	}while(--nus);
+    }
+
 }
 
 void delay_ms(uint16_t nms)
