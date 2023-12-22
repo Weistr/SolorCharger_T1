@@ -73,7 +73,6 @@ Core/Src/system_stm32f3xx.c  \
 UserApp/filter.c \
 UserApp/user_main.c \
 UserApp/vioutControl.c \
-UserApp/pid.c \
 Bsp/bsp_adc.c \
 Bsp/bsp_delay.c \
 Bsp/bsp_spi.c \
