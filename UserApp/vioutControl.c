@@ -14,11 +14,11 @@ int16_t pidOutTest = 7000;
 //BATTERY votage pid obj
 int16_t battVotLimit_mv = 4200;
 int16_t kp_bv = 100;
-int16_t bvPid_out = 0;
+int32_t bvPid_out = 0;
 //BATTERY current pid obj
 int16_t battCurLimit_ma = 500;
 int16_t kp_bi = 100;
-int16_t biPid_out = 0;
+int32_t biPid_out = 0;
 //mppt pid obj
 int16_t pvSet_mv=0;
 int32_t pwm_H_cnt_Base = 0;
@@ -32,6 +32,8 @@ float pvPid_preErr = 0;
 float pvPid_integ = 0;
 float pvPid_deriv = 0;
 float pvPid_integLimit = 2000;
+float pvPid_outLimit = 5000;
+int16_t pwmMin_fluback ;
 //时间测量
 int32_t vioutLoopTime_cntStart = 0;
 int32_t vioutLoopTime_cntStop = 0;
@@ -49,11 +51,13 @@ void vioutControlTask()
     {
         bvPid_out = (bv_mv - battVotLimit_mv)*kp_bv;
     }
+    else bvPid_out = 0;
     /*输出端限流控制*/
     if(bi_ma > battCurLimit_ma)
     {
        biPid_out = (bi_ma - battCurLimit_ma)*kp_bi;
     }   
+    else biPid_out = 0;
     /*输入端恒压*/
     pwm_H_cnt_Base = (int32_t)bv_mv * timdutyTotal / pvSet_mv; //Ton = Vo/Vi * T
 
@@ -68,9 +72,16 @@ void vioutControlTask()
 
     pvPidOut = pvPid_err * pvPid_kp + pvPid_integ + pvPid_deriv;//pid输出
     pvPid_preErr = pvPid_err;
+    if(pvPidOut > pvPid_outLimit) pvPidOut = pvPid_outLimit;//pid输出限幅
+    else if(pvPidOut < -pvPid_outLimit) pvPidOut = pvPid_outLimit;
+    hhrtim1.Instance->sTimerxRegs[0].CMP1xR = timdutyTotal - pvPidOut + tdead ;
     /*总输出*/
     pidFinalOut = pwm_H_cnt_Base + pvPidOut - biPid_out - bvPid_out;
     
+    pwmMin_fluback = (int32_t)bv_mv * timdutyTotal / pv_mv;//防止电流倒流
+    if(pidFinalOut < pwmMin_fluback) pidFinalOut = pwmMin_fluback;
+
+
     if(pidFinalOut > pwmHmax) pidFinalOut = pwmHmax;
     else if(pidFinalOut < pwmHmin) pidFinalOut = pwmHmin;
     hhrtim1.Instance->sTimerxRegs[0].CMP1xR = timdutyTotal - pidFinalOut + tdead ;
