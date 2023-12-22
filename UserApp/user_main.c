@@ -19,14 +19,9 @@ void basicTask_entry()
 {
 
 		
-		
-//		bsp_keyScan_20ms();
-		
-		
-		//adc_handle_20ms();
-		
+	
 }
-	uint16_t deb1=5000,deb2=0,deb3=0;
+uint16_t deb1=7500,deb2=0,deb3=0;
 int16_t deb4=0;
 void OLED_task()
 {
@@ -58,7 +53,7 @@ void user_main()
 	GUI_Clear();
 	
 	status_bar_start();
-  main_page_start();
+  	main_page_start();
 	
 	GUI_DisplayRefresh();
 

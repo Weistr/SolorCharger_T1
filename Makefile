@@ -72,12 +72,15 @@ Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c \
 Core/Src/system_stm32f3xx.c  \
 UserApp/filter.c \
 UserApp/user_main.c \
+UserApp/vioutControl.c \
+UserApp/pid.c \
 Bsp/bsp_adc.c \
 Bsp/bsp_delay.c \
 Bsp/bsp_spi.c \
 Bsp/bsp_tim.c \
 Bsp/GUI12864.c \
-Bsp/ssd1306.c
+Bsp/ssd1306.c 
+
 
 # ASM sources
 ASM_SOURCES =  \

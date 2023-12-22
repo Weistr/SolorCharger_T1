@@ -37,7 +37,7 @@ void vioutControlTask()
     /*输出端限流控制*/
     if(bi_ma > battCurLimit_ma)
     {
-        biPid_out = 
+       
     }   
     
     /*总输出*/
