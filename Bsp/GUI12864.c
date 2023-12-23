@@ -7,7 +7,7 @@
 #include "bsp_spi.h"
 
 #include "stdbool.h"
-
+#include "string.h"
 
 extern uint16_t battVot_mv ,bv_mv,pv_mv,cref_mv;
 extern int16_t pv_ma,pi_ma,bi_ma;
@@ -569,26 +569,42 @@ void main_page_start()
 
 }
 int32_t showPw=0;
+int32_t sumres[4];
 void main_page_update()
 {
 	static uint8_t cnt=0;
 	if(cnt > 25)
 	{
-		GUI_ShowNum(32,16,pv_mv,4,16,white);	
-		GUI_ShowNum(32,32,pi_ma,4,16,white);
-		GUI_ShowNum(18,52,bv_mv,4,12,white);
-		GUI_ShowNum(84,52,bi_ma,4,12,white);
+		sumres[0]/=cnt;
+		sumres[1]/=cnt;
+		sumres[2]/=cnt;
+		sumres[3]/=cnt;
+		GUI_ShowNum(32,16,sumres[0]/1000,2,16,white);	
+		GUI_ShowChar(48,16,'.',16,white);
+		GUI_ShowNum(56,16,sumres[0]%1000/10,2,16,white);	
+
+		GUI_ShowNum(32,32,sumres[1],4,16,white);
+		GUI_ShowNum(18,52,sumres[2],4,12,white);
+		GUI_ShowNum(84,52,sumres[3],4,12,white);
 		
-		showPw = pi_ma*pv_mv/1000;//mW
+		showPw = sumres[1]*sumres[0]/1000;//mW
 		if(showPw < 0)showPw=0;
 		if(showPw > 99999)showPw = 99999;//99W		
 		GUI_ShowNum(84,24,showPw/1000,2,16,white);
 		GUI_ShowNum(108,24,showPw%1000/100,1,16,white);
 		cnt=0;
+		for (uint8_t i = 0; i < 4; i++)
+		{
+			sumres[i]=0;
+		}
 		
 	}
 	else
 	{
+		sumres[0] += pv_mv;
+		sumres[1] += pi_ma;
+		sumres[2] += bv_mv;
+		sumres[3] += bi_ma;
 		cnt++;
 	}
 }

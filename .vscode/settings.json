@@ -7,6 +7,7 @@
         "filter.h": "c",
         "pid.h": "c",
         "user_main.h": "c",
-        "bsp_tim.h": "c"
+        "bsp_tim.h": "c",
+        "hrtim.h": "c"
     }
 }

@@ -31,10 +31,15 @@ void OLED_task()
 	GUI_DisplayRefresh();
 }
 bool rx2_flag=0;
-
+extern HRTIM_HandleTypeDef hhrtim1;
+uint8_t test_ok = 1;
 void task2()
 {
-
+	if (test_ok==0)
+	{
+		pwmStopAll();
+	}
+	
 }
 /***************************************************/
 /*********************≥ı ºªØ************************/

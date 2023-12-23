@@ -7,6 +7,8 @@
 void bsp_timInit(void);
 void setHrtimDutyNum(uint16_t dutyn);
 void setPwmhDuty(uint16_t pwmh);
+void  pwmStopAll(void);
+void  pwmStartAll(void);
 /* define ------------------------------------------------------------*/
 
 #define timdutyTotal 15360

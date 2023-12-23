@@ -28,7 +28,16 @@ void setPwmhDuty(uint16_t pwmh)
 	else if(pwmh < pwmHmin) pwmh=pwmHmin;	
 	hhrtim1.Instance->sTimerxRegs[0].CMP1xR = timdutyTotal - pwmh + tdead ;
 }
-
+void pwmStopAll()
+{
+	HAL_HRTIM_SimplePWMStop(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_OUTPUT_TA1);
+	HAL_HRTIM_SimplePWMStop(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_OUTPUT_TA2);
+}
+void pwmStartAll()
+{
+	HAL_HRTIM_SimplePWMStart(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_OUTPUT_TA1);
+	HAL_HRTIM_SimplePWMStart(&hhrtim1,HRTIM_TIMERINDEX_TIMER_A,HRTIM_OUTPUT_TA2);
+}
 void bsp_timInit(void)
 {
     //HAL_TIM_Base_Start_IT(&htim7);
@@ -43,12 +52,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance == TIM3)
     {
-		static uint16_t pwmdelay = 1000;
-		if(pwmdelay > 0)pwmdelay--;//延时
-		else
+		static uint16_t pwmdelay = 0;
+		if(pwmdelay < 1000)pwmdelay++;//延时
+		if(pwmdelay > 100)//10ms后启动
+		{
+			adc_scan();
+		}
+		if(pwmdelay > 900)//90ms后启动
 		{
 			vioutControlTask();
-		}
-		adc_scan();
+		}		
     }
 }
