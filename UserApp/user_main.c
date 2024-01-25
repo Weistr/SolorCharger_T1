@@ -50,7 +50,7 @@ void user_main()
 	delay_init();
 	bsp_timInit();
 	adc_init();
-	
+
 //отй╬фа	
 
 

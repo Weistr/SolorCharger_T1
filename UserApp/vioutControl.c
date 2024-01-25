@@ -21,7 +21,7 @@ int16_t pvSet_mv=12000;
 int16_t pvTarget_mv = 0;
 int32_t pwm_H_cnt_Base = 0;
 float pvPidOut;
-float dt = 0.0001;
+float dt = 0.00005;
 float pvPid_kp = 1;
 float pvPid_ki = 1;
 float pvPid_kd = 0;
@@ -152,3 +152,9 @@ void vioutControlTask()
     vioutLoopTime_us /= fac_us;
 }
 
+void sysPowerOff()
+{
+    HAL_GPIO_WritePin(VOCT_GPIO_Port,VOCT_Pin,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(VOCT2_GPIO_Port,VOCT2_Pin,GPIO_PIN_SET);
+    
+}
