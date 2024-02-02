@@ -3,7 +3,14 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/UserApp/Inc",
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/Drivers/STM32F3xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/STM32F3xx_HAL_Driver/Inc/Legacy",      
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F3xx/Include",   
+                "${workspaceFolder}/Drivers/CMSIS/Include",     
+                "${workspaceFolder}/Middlewares/ST/ARM/DSP/Inc"
 
             ],
             "defines": [
@@ -14,11 +21,10 @@
                 "STM32F334x8"
             ],
             "windowsSdkVersion": "10.0.22000.0",
-            "compilerPath": "C:\\Tools\\mingw64\\mingw64\\bin\\gcc.exe",
+            "compilerPath": "C:\\Tools\\mingw64\\mingw_810posix\\mingw64\\bin\\gcc.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++14",
-            "intelliSenseMode": "windows-gcc-x86",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "intelliSenseMode": "windows-gcc-x86"
         }
     ],
     "version": 4

@@ -43,6 +43,7 @@ void bsp_timInit(void)
     //HAL_TIM_Base_Start_IT(&htim7);
 		HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1|HRTIM_OUTPUT_TA2); //通道打开
 		HAL_HRTIM_WaveformCounterStart(&hhrtim1, HRTIM_TIMERID_TIMER_A); //开启子定时器A
+		pwmStopAll();
 		setPwmhDuty(5000);
 		HAL_TIM_Base_Start_IT(&htim3);
 }

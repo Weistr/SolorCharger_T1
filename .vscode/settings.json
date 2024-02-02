@@ -8,6 +8,10 @@
         "pid.h": "c",
         "user_main.h": "c",
         "bsp_tim.h": "c",
-        "hrtim.h": "c"
+        "hrtim.h": "c",
+        "bsp_pw.h": "c",
+        "main.h": "c",
+        "vioutcontrol.h": "c",
+        "bsp_key.h": "c"
     }
 }

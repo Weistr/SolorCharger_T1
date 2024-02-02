@@ -152,9 +152,3 @@ void vioutControlTask()
     vioutLoopTime_us /= fac_us;
 }
 
-void sysPowerOff()
-{
-    HAL_GPIO_WritePin(VOCT_GPIO_Port,VOCT_Pin,GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(VOCT2_GPIO_Port,VOCT2_Pin,GPIO_PIN_SET);
-    
-}

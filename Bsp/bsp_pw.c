@@ -1,10 +1,17 @@
 #include "bsp_pw.h"
-void bsp_powerOFF()
+#include "bsp_spi.h"
+#include "spi.h"
+
+void bsp_VoDisable()
 {
+
+//    HAL_GPIO_WritePin(VOCT_GPIO_Port,VOCT_Pin,GPIO_PIN_RESET);
     HAL_GPIO_WritePin(VOCT2_GPIO_Port,VOCT2_Pin,GPIO_PIN_SET);
-    HAL_GPIO_WritePin(VOCT_GPIO_Port,VOCT_Pin,GPIO_PIN_RESET);
-    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-    HAL_PWR_EnterSTANDBYMode();
+    HAL_SPI_DMAStop(&hspi1);
+    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_3|GPIO_PIN_5,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12,GPIO_PIN_RESET);
+
+
 }
 void bsp_powerOn()
 {
@@ -17,15 +24,12 @@ void bsp_powerInit()
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
 	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN2);
 }
-void bsp_sysClockDown()
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+void bsp_RccInit()
+{
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
@@ -38,9 +42,6 @@ void bsp_sysClockDown()
   {
     Error_Handler();
   }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
@@ -52,4 +53,31 @@ void bsp_sysClockDown()
   {
     Error_Handler();
   }
+
+}
+
+
+void bsp_RccChange(void)
+{
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+void mcu_standby()
+{
+	__HAL_RCC_PWR_CLK_ENABLE();
+	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
+  	__HAL_RCC_PWR_CLK_ENABLE();
+	__HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+	HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN2);  
+	HAL_PWR_EnterSTANDBYMode();
 }

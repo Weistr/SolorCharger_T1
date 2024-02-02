@@ -21,6 +21,6 @@ typedef struct
 }sgKeyTypedef;
 
 void bsp_keyScan_20ms(void);
-
+void bsp_key_init(void);
 
 #endif

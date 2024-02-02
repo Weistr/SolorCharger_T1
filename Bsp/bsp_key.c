@@ -1,5 +1,5 @@
 #include "bsp_key.h"
-
+#include "bsp_pw.h"
 sgKeyTypedef sgKey[3];
 void bsp_key_init()
 {
@@ -9,7 +9,36 @@ void bsp_key_init()
 
 
 }
-
+void power_key_handle_20ms()
+{
+	static uint8_t step=0;
+	static uint8_t cnt = 0;
+	static bool key0LonClicFlag_pre=0;
+	switch(step)
+	{
+		case 0:
+			if(sgKey[0].LonClicFlag != key0LonClicFlag_pre)//按键长按标志
+			{	
+				key0LonClicFlag_pre = sgKey[0].LonClicFlag ;//清除标志位
+				bsp_VoDisable();
+				step++;
+			}
+			break;
+		case 1:
+			if(sgKey[0].val == 0)//按键松开
+			{
+				step++;
+			}
+			break;
+		case 2:
+			cnt++;
+			if(cnt > 5)//100ms
+			{
+				mcu_standby();
+			}
+			break;
+	}
+}
 
 void bsp_keyScan_20ms()
 {
@@ -52,5 +81,6 @@ void bsp_keyScan_20ms()
         }
         sgKey[i].valPrevious = sgKey[i].val;
     }
+    power_key_handle_20ms();
 }
 

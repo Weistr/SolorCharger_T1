@@ -6,6 +6,9 @@
 #include "GUI12864.h"
 #include "bsp_delay.h"
 #include "vioutControl.h"
+#include "bsp_pw.h"
+
+#include "bsp_key.h"
 /***************************************************/
 /*********************TASK************************/
 /***************************************************/
@@ -18,7 +21,7 @@
 	
 void basicTask_entry()
 {
-
+	bsp_keyScan_20ms();
 		
 	
 }
@@ -32,7 +35,7 @@ void OLED_task()
 }
 bool rx2_flag=0;
 extern HRTIM_HandleTypeDef hhrtim1;
-uint8_t test_ok = 1;
+uint8_t test_ok = 0;
 void task2()
 {
 	if (test_ok==0)
@@ -47,19 +50,23 @@ void task2()
 
 void user_main()
 {
+	//bsp_RccInit();
+	//bsp_RccChange();
+	//SystemCoreClockUpdate();
 	delay_init();
 	bsp_timInit();
 	adc_init();
 
+	
 //œ‘ æ∆¡	
 
-
+	//HAL_RTCEx_SetWakeUpTimer(&hrtc, 400, RTC_WAKEUPCLOCK_RTCCLK_DIV16);
+//	mcu_standby();
+	bsp_key_init();
 	OLED_Init();
 	GUI_Clear();
-	
 	status_bar_start();
   	main_page_start();
-	
 	GUI_DisplayRefresh();
 
 }

@@ -57,8 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define IP_WKUP_Pin GPIO_PIN_0
-#define IP_WKUP_GPIO_Port GPIOA
 #define VOCT_Pin GPIO_PIN_3
 #define VOCT_GPIO_Port GPIOA
 #define VOCT2_Pin GPIO_PIN_15
